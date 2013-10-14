@@ -10,7 +10,7 @@ h1{
 }
 
 #map-canvas{
-	height: 480px;
+	height: 600px;
 	width: 1400px;
 	text-align: center;
 	margin-left: auto;
@@ -18,7 +18,7 @@ h1{
 	//margin-top: 50px;
 }
 
-@media only screen and (max-device-width: 640px){
+@media handheld{
 	#map-canvas{
 		height: 600px;
 		width: 200px;
