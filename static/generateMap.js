@@ -33,7 +33,7 @@ function generateMap(x, y){
 		openNow: true,
 		rankBy: google.maps.places.RankBy.DISTANCE,
 		keyword: 'bar',
-		types: ['bar', 'food']
+		types: ['bar', 'food', 'tavern']
 	};
 	service = new google.maps.places.PlacesService(map);
 	service.nearbySearch(request, barCallback);
