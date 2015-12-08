@@ -1,9 +1,5 @@
 var x, y, map, q, finalD;
 
-//var key, type;
-//function storeType(){
-//this is gonna do cool things later	
-//}
 
 function getLocation(){
 	if (navigator.geolocation){
