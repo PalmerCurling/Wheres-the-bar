@@ -23,17 +23,29 @@ function generateMap(x, y){
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-	var request = {
-		location: q,
-		openNow: true,
-		rankBy: google.maps.places.RankBy.DISTANCE,
-		keyword: 'bar',
-		types: ['bar', 'food', 'tavern']
-	};
-	service = new google.maps.places.PlacesService(map);
-	service.nearbySearch(request, barCallback);
-}
+	
+	//for zomato api//
+	//.ajax({
+	//	url: 'https://developers.zomato.com/api/v2.1/cities?lat='+x+'lon='+y,
+	//	beforeSend: function(xhr) {
+	//		xhr.setRequestHeader("user_key", "8f7c932e14b9840a253f966c2392b161")
+	//	}, sucess: function(data) {
+			//on success: get city name, pass to other functions for further info
+	//	}
+	//})
+	
+	
+	//for using only Google to power backend//
+	//	var request = {
+	//		location: q,
+	//		openNow: true,
+	//		rankBy: google.maps.places.RankBy.DISTANCE,
+	//		keyword: 'bar',
+	//		types: ['bar', 'food', 'tavern']
+	//	};
+	//service = new google.maps.places.PlacesService(map);
+	//service.nearbySearch(request, barCallback);
+	//}
 
 function diCallback(results, status){
 	directionsDisplay = new google.maps.DirectionsRenderer();
@@ -54,7 +66,7 @@ function barCallback(results, status) {
 function addHome(location){
 	marker = new google.maps.Marker({
 		position: location,
-		   map: map
+		map: map
 	});
 
 	var contentString = '<div id="home"><h2>Current location</h2></div>'
@@ -68,7 +80,7 @@ function addHome(location){
 function addMarker(location) {
 	marker = new google.maps.Marker({
 		position: location.geometry.location,
-		   map: map
+		map: map
 	});
 
 	finalD=location.geometry.location;
