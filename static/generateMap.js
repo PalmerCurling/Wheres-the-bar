@@ -1,4 +1,4 @@
-var x, y, map, q, finalD;
+var x, y, map, q, finalD, cityID, cityName, barName, streetAdd;
 
 
 function getLocation(){
@@ -25,15 +25,26 @@ function generateMap(x, y){
 	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	
 	//for zomato api//
-	//.ajax({
-	//	url: 'https://developers.zomato.com/api/v2.1/cities?lat='+x+'lon='+y,
-	//	beforeSend: function(xhr) {
-	//		xhr.setRequestHeader("user_key", "8f7c932e14b9840a253f966c2392b161")
-	//	}, sucess: function(data) {
+	.ajax({
+		url: 'https://developers.zomato.com/api/v2.1/cities?lat='+x+'lon='+y,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("user_key", "8f7c932e14b9840a253f966c2392b161")
+		}, sucess: function(serverResponse) {
 			//on success: get city name, pass to other functions for further info
-	//	}
-	//})
+			cityID = serverResponse.location_suggestions.id;
+			cityName = serverResponse.location_suggestions.name;
+		}
+	})
 	
+	.ajax({
+		url: 'https://developers.zomato.com/api/v2.1/search?entity_id='+cityID+'&entity_type=city&q=bar&sort=real_distance&order=asc',
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("user_key", "8f7c932e14b9840a253f966c2392b161")
+		}, success: function(serverResponse) {
+			//on success: query and make global nearest bar address + name
+			barName = serverResponse.restaurants[0].name;
+			streetAdd = serverResponse.restaurants[0].location.address;
+	})
 	
 	//for using only Google to power backend//
 	//	var request = {
@@ -43,9 +54,9 @@ function generateMap(x, y){
 	//		keyword: 'bar',
 	//		types: ['bar', 'food', 'tavern']
 	//	};
-	//service = new google.maps.places.PlacesService(map);
-	//service.nearbySearch(request, barCallback);
-	//}
+	service = new google.maps.places.PlacesService(map);
+	service.nearbySearch(streetAdd, barCallback);
+}
 
 function diCallback(results, status){
 	directionsDisplay = new google.maps.DirectionsRenderer();
@@ -57,7 +68,7 @@ function diCallback(results, status){
 
 function barCallback(results, status) {
 	if (status == google.maps.places.PlacesServiceStatus.OK) {
-		addMarker(results[0]);
+		addMarker(results);
 		addHome(q);
 		getDirections();
 	}
