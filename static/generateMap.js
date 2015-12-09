@@ -33,6 +33,8 @@ function generateMap(x, y){
 			//on success: get city name, pass to other functions for further info
 			cityID = serverResponse.location_suggestions.id;
 			cityName = serverResponse.location_suggestions.name;
+		}, error: function(xhr, textStatus, errorThrown){
+			alert("Error: "+errorThrown);
 		}
 	})
 	
@@ -44,6 +46,9 @@ function generateMap(x, y){
 			//on success: query and make global nearest bar address + name
 			barName = serverResponse.restaurants[0].name;
 			streetAdd = serverResponse.restaurants[0].location.address;
+		}, error: function(xhr, textStatus, errorThrown){
+			alert("Error: "+errorThrown);
+		}
 	})
 	
 	//for using only Google to power backend//
